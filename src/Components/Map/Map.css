@@ -1,0 +1,6 @@
+svg .polygon {
+    stroke: black;
+    stroke-width: .4px;
+    
+    cursor: pointer;
+  }
