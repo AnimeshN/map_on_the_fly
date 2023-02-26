@@ -1,21 +1,26 @@
 import { geoMercator ,geoPath,select,min,max } from 'd3';
 import {useRef,useEffect} from 'react'
 import './Map.css';
-const Map = ( {boundary, width,height} ) => {
+const Map = ( {boundary, width,height,data} ) => {
     const svgRef = useRef();
 
     const projection = geoMercator().fitSize([width, height], boundary);
 	const pathGenerator = geoPath(projection);
 
- 
+    if(data){
+        // let formatedData = {}
+        // data.map( array =>{
+        //     console.log(array[0],array[1]);
+        //     formatedData[array[0]] = Number(array[1]);
+        // })
+        // console.log(formatedData)
 
-
+    }
   
-
+   
     useEffect(()=>{
         const svg = select(svgRef.current);
         const g = svg.append('g');
-        console.log(boundary)
         let c1Value  = d => d.properties.AREA_
         const mymin = min(boundary.features,c1Value);
         const mymax = max(boundary.features,c1Value);
