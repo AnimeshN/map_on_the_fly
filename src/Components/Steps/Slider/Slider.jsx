@@ -38,6 +38,10 @@ const Slider = () =>{
         fillSlider = () =>{
             leftX2 = select('line.track-fill').attr("x1")-15;
             select('line.leftcolor').attr('x2',leftX2);
+            if(leftX2<0)
+                select('line.leftcolor').attr('stroke','rbg(0,0,0,0)')
+            else
+                select('line.leftcolor').attr('stroke','red')
             }
 
         select('g.slider').append('line').attr('class','leftcolor')
