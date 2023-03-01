@@ -1,52 +1,62 @@
-import { geoMercator ,geoPath,select,min,max } from 'd3';
-import {useRef,useEffect} from 'react'
+import { geoMercator ,geoPath,select,min,max,extent,scaleLinear } from 'd3';
+import {useRef,useEffect, useState} from 'react'
 import './Map.css';
 const Map = ( {boundary, width,height,data} ) => {
     const svgRef = useRef();
+    let [mapData, setMapData] = useState(boundary);
 
     const projection = geoMercator().fitSize([width, height], boundary);
 	const pathGenerator = geoPath(projection);
 
-    if(data){
-        // let formatedData = {}
-        // data.map( array =>{
-        //     console.log(array[0],array[1]);
-        //     formatedData[array[0]] = Number(array[1]);
-        // })
-        // console.log(formatedData)
+    useEffect(() =>{
+        if(data){
+            data.forEach(d => {
+                boundary.features.forEach(b =>{
+                    if(b.properties.NAME2_ === d[0]){
+                        b.properties.data = d[1];
+                    }
+                })
+                setMapData(boundary)
+            })
+        }
+    },[data,boundary])
 
-    }
   
-   
     useEffect(()=>{
         const svg = select(svgRef.current);
         const g = svg.append('g');
-        let c1Value  = d => d.properties.AREA_
-        const mymin = min(boundary.features,c1Value);
-        const mymax = max(boundary.features,c1Value);
+        let c1Value  = d => d.properties.data
+        const mymin = min(mapData.features,c1Value);
+        const mymax = max(mapData.features,c1Value);
+        const areaExtent = extent(mapData.features,d => d.properties.AREA_)
         const comp = (mymax - mymin)/3;
-        
     
-        var myColor = v =>{
-            if(v>=mymin && v < mymin + comp)
-              return 'red';
-            else if(v >= mymin+comp && v<mymax-comp)
-              return 'yellow';
-            else if(v >= mymax-comp)
-              return 'green';
+        let myColor = v =>{
+            if(v){
+                if(v>=mymin && v < mymin + comp)
+                return 'red';
+              else if(v >= mymin+comp && v<mymax-comp)
+                return 'yellow';
+              else if(v >= mymax-comp)
+                return 'green';
+            }else{
+                return "white";
+            }
+          
           }
+        let fontScale = scaleLinear().domain(areaExtent).range([16,10])
 
         g
         .selectAll(".polygon")
-        .data(boundary.features)
+        .data(mapData.features)
         .join("path").attr("class", "polygon") 
         .attr("d" ,feature => pathGenerator(feature))
         .style("fill", d =>{
-            var value = d.properties.AREA_;
+            var value = d.properties.data;
             return myColor(value);
         })
 
-        g.selectAll("text").data(boundary.features)
+        g.selectAll("text").data(mapData.features)
         .enter().append("text")
         .text(d => d.properties.NAME2_)
         .attr("x", function(d){
@@ -56,9 +66,10 @@ const Map = ( {boundary, width,height,data} ) => {
             return  pathGenerator.centroid(d)[1];
         })
         .attr("text-anchor","middle")
-        .attr('font-size','6pt')
+        // .attr('font-size',d => fontScale(d.properties.AREA_)+"px")
+        .attr('font-size',"8px")
         .attr("font-family", "sans-serif");
-    })
+    },[mapData])
 
     return (
         <svg className = "svg-map" width={width} height={height} ref={svgRef} ></svg>
