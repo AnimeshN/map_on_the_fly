@@ -14,6 +14,7 @@ function App() {
   const newStateTopology = require('./data/boundries/India.json'); // NFHS5 state vector layer
   const newStateObject = newStateTopology.objects['india-state_26may'];
   let boundary = feature(newStateTopology, newStateObject)
+  console.log("APP")
   return (
     <div className="App">
      <Steps setData = {setData}></Steps>

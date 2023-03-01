@@ -1,4 +1,5 @@
 import Papa from "papaparse";
+import Slider from './Slider/Slider';
 
 const Steps = ({setData}) =>{
     
@@ -27,6 +28,7 @@ const Steps = ({setData}) =>{
                 />
 
             </form>
+            <Slider></Slider>
         </div>
     );
 }
