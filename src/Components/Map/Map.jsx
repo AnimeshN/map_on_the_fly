@@ -24,6 +24,7 @@ const Map = ( {boundary, width,height,data} ) => {
   
     useEffect(()=>{
         const svg = select(svgRef.current);
+        svg.select("*").remove();
         const g = svg.append('g');
         let c1Value  = d => d.properties.data
         const mymin = min(mapData.features,c1Value);
@@ -67,7 +68,7 @@ const Map = ( {boundary, width,height,data} ) => {
         })
         .attr("text-anchor","middle")
         // .attr('font-size',d => fontScale(d.properties.AREA_)+"px")
-        .attr('font-size',"8px")
+        .attr('font-size',"12px")
         .attr("font-family", "sans-serif");
     },[mapData])
 

@@ -1,8 +1,13 @@
 import { select,format,symbol,symbolCircle } from 'd3';
 import { sliderBottom } from 'd3-simple-slider';
+import {useRef} from 'react'
 
 const Slider = () =>{
- 
+    console.log("SLIDER")
+    const sliderRef = useRef();
+    const slider = select(sliderRef.current);
+    slider.select("*").remove();
+
 
     var sliderRange =
     sliderBottom()
@@ -15,14 +20,16 @@ const Slider = () =>{
     .fill('yellow')
     .handle(symbol().type(symbolCircle).size(550)());
 
-    var gRange = select('div#slider-range')
-    .append('svg')
-    .attr('width', 500)
-    .attr('height', 100)
-    .append('g')
-    .attr('transform', 'translate(30,30)');
+    // var gRange = select('div#slider-range')
+    // .append('svg')
+    // .attr('width', 500)
+    // .attr('height', 100)
+    // .append('g')
+    // .attr('transform', 'translate(30,30)');
+    let g = slider.append("g").attr('transform', 'translate(30,30)')
 
-    gRange.call(sliderRange);
+    // gRange.call(sliderRange);
+    g.call(sliderRange)
 
     select('p#value-range').text(
         sliderRange
@@ -49,15 +56,12 @@ const Slider = () =>{
         .attr('stroke-width',4).attr('stroke-linecap','round');
 
     select('line.track-fill').attr('stroke','yellow')
+    
     select('line.leftcolor').attr('stroke','red')
     select('line.track-inset').attr('stroke','green')
     }
   
-  
-
-
-
-    sliderRange .on('onchange', val => {
+  sliderRange.on('onchange', val => {
         fillSlider();
         select('p#value-range').text(val.map(format('.1%')).join('-'));
         // const tansitionDuration = 1000;
@@ -70,8 +74,11 @@ const Slider = () =>{
     
     return (
           <div className="row align-items-center">
+            <svg className = "svg-slider" width={500} height={100}  ref={sliderRef} ></svg>
+
+
             <div className="col-sm-2"><p id="value-range"></p></div>
-            <div className="col-sm"><div id="slider-range"></div></div>
+            {/* <div className="col-sm"><div id="slider-range"></div></div> */}
         </div>
     );
 }
