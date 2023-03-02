@@ -1,7 +1,8 @@
 import Papa from "papaparse";
 import Slider from './Slider/Slider';
+import Download from './Download/Download';
 
-const Steps = ({setData}) =>{
+const Steps = ({setData,mapRef}) =>{
     
   
     const handleOnChange = (e) => {
@@ -29,6 +30,7 @@ const Steps = ({setData}) =>{
 
             </form>
             <Slider></Slider>
+            <Download mapRef={mapRef}></Download>
         </div>
     );
 }

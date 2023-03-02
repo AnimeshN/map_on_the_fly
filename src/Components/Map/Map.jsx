@@ -1,8 +1,7 @@
 import { geoMercator ,geoPath,select,min,max,extent,scaleLinear } from 'd3';
-import {useRef,useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import './Map.css';
-const Map = ( {boundary, width,height,data} ) => {
-    const svgRef = useRef();
+const Map = ( {boundary, width,height,data,svgRef} ) => {
     let [mapData, setMapData] = useState(boundary);
 
     const projection = geoMercator().fitSize([width, height], boundary);
@@ -73,7 +72,12 @@ const Map = ( {boundary, width,height,data} ) => {
     },[mapData])
 
     return (
-        <svg className = "svg-map" width={width} height={height} ref={svgRef} ></svg>
+        // <div className='relative  w-full pb-3 pt-1 pr-3' id="svgMap" ref={componentRef}>
+        <div id="svgMap">
+            <svg className = "svg-map" width={width} height={height} ref={svgRef} ></svg>
+
+        </div>
+        // <div>
     )
 }
 
