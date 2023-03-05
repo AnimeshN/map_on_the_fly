@@ -29,7 +29,7 @@ const Steps = ({setData,mapRef}) =>{
                 />
 
             </form>
-            <Slider></Slider>
+            <Slider mapRef={mapRef}></Slider>
             <Download mapRef={mapRef}></Download>
         </div>
     );

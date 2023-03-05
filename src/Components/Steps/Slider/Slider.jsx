@@ -2,7 +2,7 @@ import { select,format,symbol,symbolCircle } from 'd3';
 import { sliderBottom } from 'd3-simple-slider';
 import {useRef} from 'react'
 
-const Slider = () =>{
+const Slider = ({mapRef}) =>{
     console.log("SLIDER")
     const sliderRef = useRef();
     const slider = select(sliderRef.current);
@@ -60,23 +60,34 @@ const Slider = () =>{
     select('line.leftcolor').attr('stroke','red')
     select('line.track-inset').attr('stroke','green')
     }
+    const svgMap = select(mapRef.current);
   
+    const c1Value = d => d.properties.data;
+
+    var myColor = (v,low,high) =>{
+        console.log(v)
+        if(v<low)
+          return 'red';
+        else if(v >= low && v <= high)
+          return 'yellow';
+        else if(v>high)
+          return 'green';
+      }   
+    
   sliderRange.on('onchange', val => {
         fillSlider();
+        const tansitionDuration = 1000;
+        let low = (val[0]*100).toFixed(2);
+        let high = (val[1]*100).toFixed(2);
         select('p#value-range').text(val.map(format('.1%')).join('-'));
-        // const tansitionDuration = 1000;
-        //   let low = (val[0]*100).toFixed(2);
-        //   let high = (val[1]*100).toFixed(2);
-            //     pathEnter.transition().duration(tansitionDuration).style("fill", function(d) {
-            //   return myColor(c1Value(d),low,high);
-            //         })
+        svgMap.select('g').selectAll(".polygon").transition().duration(tansitionDuration).style("fill",d=>{
+            return myColor(c1Value(d),low,high)
         })
+    })
     
     return (
           <div className="row align-items-center">
             <svg className = "svg-slider" width={500} height={100}  ref={sliderRef} ></svg>
-
-
             <div className="col-sm-2"><p id="value-range"></p></div>
             {/* <div className="col-sm"><div id="slider-range"></div></div> */}
         </div>
