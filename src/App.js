@@ -26,8 +26,9 @@ function App() {
   const talukaObject = mhTaluka.objects.mh_sub_dt_equi2hmis071221;
 
   // let boundary = feature(newStateTopology, newStateObject)
-  let initialboundary = feature(mhDist, districtObject)
-  let boundary = initialboundary;
+  let initialboundary = feature(mhDist, districtObject) // real
+  const [boundary,setBoundary] = useState(initialboundary);
+  // let boundary = initialboundary;
   
   let areaChangeDropdownOpt = []
   initialboundary.features.map( d =>{
@@ -35,14 +36,32 @@ function App() {
     areaChangeDropdownOpt.push(temp);
   })
  
-  const [selArea, setSelArea] = useState(0);
+  const [selArea, setSelArea] = useState("Maharashtra");
 
   const areaChange = (e) =>{
-      let val = parseInt(e.target.value);
+      let val = e.target.value;
       setSelArea(val);
-      console.log(val)
+      let allTaluka = feature(mhTaluka,talukaObject);
+
+      let features = [];
+      allTaluka.features.map(d =>{
+        if(d.properties.district === val){
+        features.push(d)
+      }
+   
+      })
+      let selectedTalukaBoundary = {
+        "type": "FeatureCollection",
+        "features": features
+      } 
+      if(val !== "Maharashtra")
+        setBoundary(selectedTalukaBoundary)
+      else
+        setBoundary(initialboundary)
+
 
   }
+
 
   console.log("APP")
   return (

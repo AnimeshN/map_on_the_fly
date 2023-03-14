@@ -17,6 +17,10 @@ const Steps = ({setData,mapRef, areaChangeDropdownOpt, selArea,areaChange}) =>{
         }
 
     };
+
+    const downloadFormat = () =>{
+        console.log("download format")
+    }
    
     return (
         // <div style={{ textAlign: "center" }}>
@@ -35,9 +39,9 @@ const Steps = ({setData,mapRef, areaChangeDropdownOpt, selArea,areaChange}) =>{
                 value={selArea}
                 onChange={areaChange}
                 >
-                <option key={"0Maharashtra"} value={0}>{"Maharashtra"}</option>
+                <option key={"0Maharashtra"} value={"Maharashtra"}>{"Maharashtra"}</option>
                 {areaChangeDropdownOpt.map((opt) => (
-                    <option key={opt.value + opt.title} value={opt.value}>
+                    <option key={opt.value + opt.title} value={opt.title}>
                     {opt.title}
                     </option>
                 ))}
@@ -47,7 +51,9 @@ const Steps = ({setData,mapRef, areaChangeDropdownOpt, selArea,areaChange}) =>{
         <div className="Common TwoSteps">
           <div className="Step FirstStep">
             <div className="Heading">Step2: Download Format</div>
-            <div className="Function">Functions</div>
+            <div className="Function">
+                <button onClick={downloadFormat}>Download</button>
+            </div>
           </div>
           <div className="Step SecondStep">
             <div className="Heading">Step3: Upload Data</div>

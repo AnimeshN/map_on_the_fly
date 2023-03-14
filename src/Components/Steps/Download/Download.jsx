@@ -11,8 +11,6 @@ import React from "react";
 
 const Download = ({mapRef}) =>{
     
-   console.log(mapRef)
-
    const savePng = ()=>{
     htmlToImage.toPng(document.getElementById("svgMap"),{backgroundColor:'white'})
     .then(function (dataUrl) {

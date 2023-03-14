@@ -1,4 +1,4 @@
-import { geoMercator ,geoPath,select,min,max,extent,scaleLinear } from 'd3';
+import { geoMercator ,geoPath,select,min,max,extent,scaleLinear,geoBounds } from 'd3';
 import {useEffect, useState} from 'react'
 
 import './Map.css';
@@ -6,34 +6,37 @@ const Map = ( {boundary, width,height,data,svgRef,dimensions} ) => {
     let [mapData, setMapData] = useState(boundary);
     const aspect = width / height;
     const adjustedHeight = Math.ceil(width / aspect);
+   
 
-    const projection = geoMercator().fitSize([width, height], boundary);
-	const pathGenerator = geoPath(projection);
-
-    useEffect(() =>{
-        if(data){
-            data.forEach(d => {
-                boundary.features.forEach(b =>{
-                    if(b.properties.NAME2_ === d[0]){
-                        b.properties.data = d[1];
-                    }
-                })
-                setMapData(boundary)
-            })
-        }
-    },[data,boundary])
+    // useEffect(() =>{
+    //     if(data){
+    //         data.forEach(d => {
+    //             boundary.features.forEach(b =>{
+    //                 if(b.properties.NAME2_ === d[0]){
+    //                     b.properties.data = d[1];
+    //                 }
+    //             })
+    //             setMapData(boundary)
+    //         })
+    //     }
+    // },[data,boundary])
 
   
     useEffect(()=>{
+        console.log(boundary,geoBounds(boundary),mapData)
+        const projection = geoMercator().fitSize([width, height], boundary);
+        const pathGenerator = geoPath(projection);
+        
+
         const svg = select(svgRef.current);
         svg.select("*").remove();
         svg.attr("preserveAspectRatio", "xMinYMin meet")
         .attr("viewBox",  `0 0 ${width} ${adjustedHeight}`)
         const g = svg.append('g');
         let c1Value  = d => d.properties.data
-        const mymin = min(mapData.features,c1Value);
-        const mymax = max(mapData.features,c1Value);
-        const areaExtent = extent(mapData.features,d => d.properties.AREA_)
+        const mymin = min(boundary.features,c1Value);
+        const mymax = max(boundary.features,c1Value);
+        const areaExtent = extent(boundary.features,d => d.properties.AREA_)
         const comp = (mymax - mymin)/3;
     
         let myColor = v =>{
@@ -53,7 +56,7 @@ const Map = ( {boundary, width,height,data,svgRef,dimensions} ) => {
 
         g
         .selectAll(".polygon")
-        .data(mapData.features)
+        .data(boundary.features)
         .join("path").attr("class", "polygon") 
         .attr("d" ,feature => pathGenerator(feature))
         .style("fill", d =>{
@@ -61,7 +64,7 @@ const Map = ( {boundary, width,height,data,svgRef,dimensions} ) => {
             return myColor(value);
         })
 
-        g.selectAll("text").data(mapData.features)
+        g.selectAll("text").data(boundary.features)
         .enter().append("text")
         .text(d => d.properties.NAME2_)
         .attr("x", function(d){
@@ -74,7 +77,7 @@ const Map = ( {boundary, width,height,data,svgRef,dimensions} ) => {
         // .attr('font-size',d => fontScale(d.properties.AREA_)+"px")
         .attr('font-size',"12px")
         .attr("font-family", "sans-serif");
-    },[mapData])
+    },[boundary])
 
     return (
         // <div className='relative  w-full pb-3 pt-1 pr-3' id="svgMap" ref={componentRef}>
