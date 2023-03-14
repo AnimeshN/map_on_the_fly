@@ -1,8 +1,11 @@
 import { geoMercator ,geoPath,select,min,max,extent,scaleLinear } from 'd3';
 import {useEffect, useState} from 'react'
+
 import './Map.css';
-const Map = ( {boundary, width,height,data,svgRef} ) => {
+const Map = ( {boundary, width,height,data,svgRef,dimensions} ) => {
     let [mapData, setMapData] = useState(boundary);
+    const aspect = width / height;
+    const adjustedHeight = Math.ceil(width / aspect);
 
     const projection = geoMercator().fitSize([width, height], boundary);
 	const pathGenerator = geoPath(projection);
@@ -24,6 +27,8 @@ const Map = ( {boundary, width,height,data,svgRef} ) => {
     useEffect(()=>{
         const svg = select(svgRef.current);
         svg.select("*").remove();
+        svg.attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox",  `0 0 ${width} ${adjustedHeight}`)
         const g = svg.append('g');
         let c1Value  = d => d.properties.data
         const mymin = min(mapData.features,c1Value);
@@ -74,7 +79,7 @@ const Map = ( {boundary, width,height,data,svgRef} ) => {
     return (
         // <div className='relative  w-full pb-3 pt-1 pr-3' id="svgMap" ref={componentRef}>
         <div id="svgMap">
-            <svg className = "svg-map" width={width} height={height} ref={svgRef} ></svg>
+            <svg className = "svg-map" ref={svgRef} ></svg>
 
         </div>
         // <div>

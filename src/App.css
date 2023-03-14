@@ -1,3 +1,68 @@
+body{
+  margin: 0px;
+}
 .App {
+  height: 100vh;
+  display: flex;
+  /* font-size: 10px; */
+}
+.Steps {
+  /*   background-color:lightblue; */
+  flex-grow: 1;
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /*   border-right-style: solid; */
   text-align: center;
+}
+.Map {
+  /*   background-color: lightgrey; */
+  flex-grow: 5;
+  width:80%;
+}
+.Common {
+  border-style: solid;
+  flex-grow: 1;
+  /*     border-radius: 11px; */
+  border-width: thin;
+  /*     border-color: lightgrey; */
+  margin: 1px;
+}
+.Title {
+  flex-grow: 0.2;
+}
+.Step {
+  display: flex;
+  flex-direction: column;
+}
+.Heading {
+  border-bottom-style: solid;
+  border-width: thin;
+  border-color: lightgrey;
+  word-wrap: break-word;
+
+  /*   		background-color: lightblue; */
+
+  flex-grow: 1;
+}
+.Function {
+  /*       boder-style: solid; */
+  /*       background-color: lightgrey; */
+
+  flex-grow: 10;
+}
+.TwoSteps {
+  display: flex;
+}
+.FirstStep {
+  flex-grow: 1;
+  /*     	border-style:solid; */
+  border-right-style: solid;
+  border-width: thin;
+  /*     border-color: lightgrey; */
+}
+.SecondStep {
+  flex-grow: 1;
+  /*       border-style:solid; */
 }

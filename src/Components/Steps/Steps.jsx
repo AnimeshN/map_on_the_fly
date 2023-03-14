@@ -19,7 +19,26 @@ const Steps = ({setData,mapRef}) =>{
     };
    
     return (
-        <div style={{ textAlign: "center" }}>
+        // <div style={{ textAlign: "center" }}>
+ 
+        //     
+        //     
+        // </div>
+
+        <div className="Steps">
+        <div className="Common Title">MAPS ON THE FLY!</div>
+        <div className="Common Step Step1">
+          <div className="Heading">Step1: Select Map</div>
+          <div className="Function">Functions</div>
+        </div>
+        <div className="Common TwoSteps">
+          <div className="Step FirstStep">
+            <div className="Heading">Step2: Download Format</div>
+            <div className="Function">Functions</div>
+          </div>
+          <div className="Step SecondStep">
+            <div className="Heading">Step3: Upload Data</div>
+            <div className="Function">
             <form>
                 <input
                     type={"file"}
@@ -29,9 +48,28 @@ const Steps = ({setData,mapRef}) =>{
                 />
 
             </form>
-            <Slider mapRef={mapRef}></Slider>
-            <Download mapRef={mapRef}></Download>
+            </div>
+          </div>
         </div>
+        <div className="Common Step Step4">
+          <div className="Heading">Step4: Style</div>
+          <div className="Function"><Slider mapRef={mapRef} ></Slider></div>
+        </div>
+        <div className="Common Step">
+          <div className="Heading">Step5: Add Labels</div>
+          <div className="Function">Functions</div>
+        </div>
+        <div className="Common TwoSteps">
+          <div className="Step FirstStep">
+            <div className="Heading">Step6: Export</div>
+            <div className="Function"><Download mapRef={mapRef}></Download></div>
+          </div>
+          <div className="Step SecondStep">
+            <div className="Heading">Done!</div>
+            <div className="Function">Functions</div>
+          </div>
+        </div>
+      </div>
     );
 }
 

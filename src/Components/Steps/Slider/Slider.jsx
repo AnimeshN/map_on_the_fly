@@ -86,9 +86,9 @@ const Slider = ({mapRef}) =>{
     })
     
     return (
-          <div className="row align-items-center">
+          <div>
             <svg className = "svg-slider" width={500} height={100}  ref={sliderRef} ></svg>
-            <div className="col-sm-2"><p id="value-range"></p></div>
+            {/* <div className="col-sm-2"><p id="value-range"></p></div> */}
             {/* <div className="col-sm"><div id="slider-range"></div></div> */}
         </div>
     );
