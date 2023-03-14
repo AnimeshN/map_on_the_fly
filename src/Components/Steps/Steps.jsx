@@ -1,10 +1,10 @@
 import Papa from "papaparse";
 import Slider from './Slider/Slider';
 import Download from './Download/Download';
+// import { useState } from "react";
 
-const Steps = ({setData,mapRef}) =>{
-    
-  
+const Steps = ({setData,mapRef, areaChangeDropdownOpt, selArea,areaChange}) =>{
+
     const handleOnChange = (e) => {
         const files = e.target.files;
         if (files) {
@@ -29,7 +29,20 @@ const Steps = ({setData,mapRef}) =>{
         <div className="Common Title">MAPS ON THE FLY!</div>
         <div className="Common Step Step1">
           <div className="Heading">Step1: Select Map</div>
-          <div className="Function">Functions</div>
+          <div className="Function">
+          <select
+                className='select-category'
+                value={selArea}
+                onChange={areaChange}
+                >
+                <option key={"0Maharashtra"} value={0}>{"Maharashtra"}</option>
+                {areaChangeDropdownOpt.map((opt) => (
+                    <option key={opt.value + opt.title} value={opt.value}>
+                    {opt.title}
+                    </option>
+                ))}
+            </select>
+          </div>
         </div>
         <div className="Common TwoSteps">
           <div className="Step FirstStep">

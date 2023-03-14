@@ -18,11 +18,36 @@ function App() {
 
   const newStateTopology = require('./data/boundries/India.json'); // NFHS5 state vector layer
   const newStateObject = newStateTopology.objects['india-state_26may'];
-  let boundary = feature(newStateTopology, newStateObject)
+
+  const mhDist = require('./data/boundries/maharashtra/mh_dt_geojson_141121.json');  // Maharashtra district topojson
+  const districtObject = mhDist.objects.mh_dt_geojson_141121;
+
+  const mhTaluka = require('./data/boundries/maharashtra/mh_sub_dt_equi2hmis071221.json'); // Maharashra taluka topojson
+  const talukaObject = mhTaluka.objects.mh_sub_dt_equi2hmis071221;
+
+  // let boundary = feature(newStateTopology, newStateObject)
+  let initialboundary = feature(mhDist, districtObject)
+  let boundary = initialboundary;
+  
+  let areaChangeDropdownOpt = []
+  initialboundary.features.map( d =>{
+    let temp = {"value":d.properties.ogc_fid,"title":d.properties.district_n}
+    areaChangeDropdownOpt.push(temp);
+  })
+ 
+  const [selArea, setSelArea] = useState(0);
+
+  const areaChange = (e) =>{
+      let val = parseInt(e.target.value);
+      setSelArea(val);
+      console.log(val)
+
+  }
+
   console.log("APP")
   return (
     <div className="App">
-     <Steps setData = {setData} mapRef = {svgRef}></Steps>
+     <Steps setData = {setData} mapRef = {svgRef} areaChangeDropdownOpt={areaChangeDropdownOpt} selArea={selArea}  areaChange={areaChange}></Steps>
 
 
       <div className="Map" ref={wrapperRef}>
