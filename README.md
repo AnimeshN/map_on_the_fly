@@ -10,3 +10,8 @@
  2. Upload data
  3. Static Vizualization
  4. Export Map
+
+ ### Version 1m(Started on 14th March 2023)
+ 1. extention maps on fly under for maharashtra
+ 2. maharashtra + taluka maps
+ 3. development of download format feature
