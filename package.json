@@ -19,6 +19,7 @@
     "react-component-export-image": "^1.0.6",
     "react-csv": "^2.2.2",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.8.0",
     "react-scripts": "5.0.1",
     "resize-observer-polyfill": "^1.5.1",
     "topojson": "^3.0.2",

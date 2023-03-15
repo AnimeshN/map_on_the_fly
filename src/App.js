@@ -7,7 +7,7 @@ import React, { useState,useRef,useEffect } from "react";
 import { min,max,extent } from 'd3';
 
 const width = window.screen.width + 500;
-const height = window.screen.height+300;
+const height = window.screen.height + 300;
 
 
 function App() {
@@ -96,7 +96,7 @@ function App() {
 
   return (
     <div className="App">
-     <Steps setData = {setData} mapRef = {svgRef}  areaChangeDropdownOpt={areaChangeDropdownOpt} selArea={selArea}  areaChange={areaChange} data={data} template={template} myextent={myextent} setTitle={setTitle}></Steps>
+     <Steps setData = {setData} mapRef = {svgRef}  areaChangeDropdownOpt={areaChangeDropdownOpt} selArea={selArea}  areaChange={areaChange} data={data} template={template} myextent={myextent} setTitle={setTitle} width={width} height={height}></Steps>
 
 
       <div className="Map" id='map' ref={wrapperRef}>

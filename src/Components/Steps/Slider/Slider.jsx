@@ -2,7 +2,7 @@ import { select,format,symbol,symbolCircle } from 'd3';
 import { sliderBottom } from 'd3-simple-slider';
 import {useRef} from 'react'
 
-const Slider = ({mapRef,myextent}) =>{
+const Slider = ({mapRef,myextent,width,height}) =>{
     let mymin, mymax;
     if(myextent[0]){
         mymin = myextent[0];
@@ -33,7 +33,7 @@ const Slider = ({mapRef,myextent}) =>{
     // .attr('height', 100)
     // .append('g')
     // .attr('transform', 'translate(30,30)');
-    let g = slider.append("g").attr('transform', 'translate(30,30)')
+    let g = slider.append("g").attr('transform', 'translate(100,30)')
 
     // gRange.call(sliderRange);
     g.call(sliderRange)
@@ -93,7 +93,7 @@ const Slider = ({mapRef,myextent}) =>{
     
     return (
           <div>
-            <svg className = "svg-slider" width={500} height={100}  ref={sliderRef} ></svg>
+            <svg className = "svg-slider" width={width*.2} height={100}  ref={sliderRef} ></svg>
             {/* <div className="col-sm-2"><p id="value-range"></p></div> */}
             {/* <div className="col-sm"><div id="slider-range"></div></div> */}
         </div>

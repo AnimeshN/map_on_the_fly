@@ -3,7 +3,7 @@ import download from 'downloadjs';
 
 import React from "react";
 
-const Download = () =>{
+const Download = ({AiOutlineExport}) =>{
     
    const savePng = ()=>{
     htmlToImage.toPng(document.getElementById("map"),{backgroundColor:'white'})
@@ -22,7 +22,7 @@ const Download = () =>{
 //     });
 // }
     return (
-        <button onClick={savePng} id="btn">Download</button>
+        <button class="custom-button" onClick={savePng} id="btn"><AiOutlineExport/></button>
     );
 }
 

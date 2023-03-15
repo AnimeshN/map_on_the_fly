@@ -35,6 +35,10 @@ body{
 .Step {
   display: flex;
   flex-direction: column;
+  /* padding: 100px;; */
+
+
+
 }
 .Heading {
   border-bottom-style: solid;
@@ -47,8 +51,9 @@ body{
   flex-grow: 1;
 }
 .Function {
-  /*       boder-style: solid; */
-  /*       background-color: lightgrey; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   flex-grow: 10;
 }
