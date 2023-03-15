@@ -3,14 +3,18 @@ import Map from './Components/Map/Map';
 import Steps from './Components/Steps/Steps';
 import './App.css';
 import useResizeObserver from './Components/useResizeObserver';
-import React, { useState,useRef } from "react";
+import React, { useState,useRef,useEffect } from "react";
+import { min,max,extent } from 'd3';
 
 const width = window.screen.width + 500;
-const height = window.screen.height + 500;
+const height = window.screen.height+300;
 
 
 function App() {
   const [data, setData] = useState();
+  const [title, setTitle] = useState("Maharashtra districts");
+
+  // const [myextent, setMyExtent] = useState();
   const svgRef = useRef();
   const wrapperRef = useRef();
 
@@ -19,20 +23,21 @@ function App() {
   const newStateTopology = require('./data/boundries/India.json'); // NFHS5 state vector layer
   const newStateObject = newStateTopology.objects['india-state_26may'];
 
-  const mhDist = require('./data/boundries/maharashtra/mh_dt_geojson_141121.json');  // Maharashtra district topojson
-  const districtObject = mhDist.objects.mh_dt_geojson_141121;
+  const mhDist = require('./data/boundries/maharashtra/mh_dist.json');  // Maharashtra district topojson
+  const districtObject = mhDist.objects.mh_dist;
 
-  const mhTaluka = require('./data/boundries/maharashtra/mh_sub_dt_equi2hmis071221.json'); // Maharashra taluka topojson
-  const talukaObject = mhTaluka.objects.mh_sub_dt_equi2hmis071221;
+  const mhTaluka = require('./data/boundries/maharashtra/mh_sub.json'); // Maharashra taluka topojson
+  const talukaObject = mhTaluka.objects.mh_sub;
 
   // let boundary = feature(newStateTopology, newStateObject)
   let initialboundary = feature(mhDist, districtObject) // real
+  // console.log(initialboundary,"intial")
   const [boundary,setBoundary] = useState(initialboundary);
   // let boundary = initialboundary;
   
   let areaChangeDropdownOpt = []
   initialboundary.features.map( d =>{
-    let temp = {"value":d.properties.ogc_fid,"title":d.properties.district_n}
+    let temp = {"value":d.properties.area_name,"title":d.properties.area_name}
     areaChangeDropdownOpt.push(temp);
   })
  
@@ -42,10 +47,11 @@ function App() {
       let val = e.target.value;
       setSelArea(val);
       let allTaluka = feature(mhTaluka,talukaObject);
+      // console.log(allTaluka,"allTaluka")
 
       let features = [];
       allTaluka.features.map(d =>{
-        if(d.properties.district === val){
+        if(d.properties.area_parent === val){
         features.push(d)
       }
    
@@ -62,14 +68,40 @@ function App() {
 
   }
 
+      let template = boundary.features.map(x => ({ "area_name": x.properties.area_name }))
 
+    useEffect(() =>{
+        if(data){
+          let mapData = JSON.parse(JSON.stringify(boundary));
+            data.forEach(d => {
+              mapData.features.forEach(b =>{
+                    if(b.properties.area_name === d[0]){
+                        b.properties.values = d[1];
+                    }
+                })
+                setBoundary(mapData)
+            })
+
+        }
+    },[data])
+
+
+    
+    let c1Value  = d => d.properties.values
+    const mymin = min(boundary.features,c1Value);
+    const mymax = max(boundary.features,c1Value);
+    const myextent = extent(boundary.features,c1Value);
+    console.log(mymin,mymax,myextent)
   console.log("APP")
+
   return (
     <div className="App">
-     <Steps setData = {setData} mapRef = {svgRef} areaChangeDropdownOpt={areaChangeDropdownOpt} selArea={selArea}  areaChange={areaChange}></Steps>
+     <Steps setData = {setData} mapRef = {svgRef}  areaChangeDropdownOpt={areaChangeDropdownOpt} selArea={selArea}  areaChange={areaChange} data={data} template={template} myextent={myextent} setTitle={setTitle}></Steps>
 
 
-      <div className="Map" ref={wrapperRef}>
+      <div className="Map" id='map' ref={wrapperRef}>
+      <h1 style={{textAlign: "center"}}>{title}</h1>
+
         <Map boundary={boundary} data={data} width={width} height={height} svgRef={svgRef} dimensions={dimensions}></Map>
       </div>
     </div>

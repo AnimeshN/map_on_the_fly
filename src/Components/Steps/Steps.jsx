@@ -1,9 +1,9 @@
 import Papa from "papaparse";
 import Slider from './Slider/Slider';
 import Download from './Download/Download';
-// import { useState } from "react";
+import { CSVLink } from "react-csv";
 
-const Steps = ({setData,mapRef, areaChangeDropdownOpt, selArea,areaChange}) =>{
+const Steps = ({setData,mapRef,areaChangeDropdownOpt,selArea,areaChange,template, data,myextent,setTitle}) =>{
 
     const handleOnChange = (e) => {
         const files = e.target.files;
@@ -18,10 +18,19 @@ const Steps = ({setData,mapRef, areaChangeDropdownOpt, selArea,areaChange}) =>{
 
     };
 
+    let headers = [
+        { label: "area_name", key: "area_name" },
+        { label: "value", key: "value" },
+    ];
+
+    
+
     const downloadFormat = () =>{
         console.log("download format")
     }
-   
+   const updateTitle = (e) =>{
+    setTitle(e.target.value);
+   }
     return (
         // <div style={{ textAlign: "center" }}>
  
@@ -52,7 +61,12 @@ const Steps = ({setData,mapRef, areaChangeDropdownOpt, selArea,areaChange}) =>{
           <div className="Step FirstStep">
             <div className="Heading">Step2: Download Format</div>
             <div className="Function">
+
+            <CSVLink headers={headers} data={template} filename={selArea + ".csv"}>
                 <button onClick={downloadFormat}>Download</button>
+            </CSVLink>
+
+                {/* <button onClick={downloadFormat}>Download</button> */}
             </div>
           </div>
           <div className="Step SecondStep">
@@ -72,16 +86,20 @@ const Steps = ({setData,mapRef, areaChangeDropdownOpt, selArea,areaChange}) =>{
         </div>
         <div className="Common Step Step4">
           <div className="Heading">Step4: Style</div>
-          <div className="Function"><Slider mapRef={mapRef} ></Slider></div>
+          <div className="Function"><Slider mapRef={mapRef} myextent={myextent}></Slider></div>
         </div>
         <div className="Common Step">
           <div className="Heading">Step5: Add Labels</div>
-          <div className="Function">Functions</div>
+          <div className="Function">
+          <form>
+            <label>Title:<input type="text" name="name" onChange={updateTitle} /></label>
+            </form>
+          </div>
         </div>
         <div className="Common TwoSteps">
           <div className="Step FirstStep">
             <div className="Heading">Step6: Export</div>
-            <div className="Function"><Download mapRef={mapRef}></Download></div>
+            <div className="Function"><Download></Download></div>
           </div>
           <div className="Step SecondStep">
             <div className="Heading">Done!</div>

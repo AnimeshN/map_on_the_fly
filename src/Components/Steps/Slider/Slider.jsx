@@ -2,8 +2,15 @@ import { select,format,symbol,symbolCircle } from 'd3';
 import { sliderBottom } from 'd3-simple-slider';
 import {useRef} from 'react'
 
-const Slider = ({mapRef}) =>{
-    console.log("SLIDER")
+const Slider = ({mapRef,myextent}) =>{
+    let mymin, mymax;
+    if(myextent[0]){
+        mymin = myextent[0];
+        mymax = myextent[1];
+    }else{
+        mymin = 0;
+        mymax = 100;
+    }
     const sliderRef = useRef();
     const slider = select(sliderRef.current);
     slider.select("*").remove();
@@ -11,12 +18,12 @@ const Slider = ({mapRef}) =>{
 
     var sliderRange =
     sliderBottom()
-    .min(0)
-    .max(.999)
+    .min(mymin)
+    .max(mymax)
     .width(300)
-    .tickFormat(format('.1%'))
+    .tickFormat(format(''))
     .ticks(5)
-    .default([.25, .50])
+    .default([(mymax-mymin)*.25,(mymax-mymin)*.75])
     .fill('yellow')
     .handle(symbol().type(symbolCircle).size(550)());
 
@@ -62,11 +69,10 @@ const Slider = ({mapRef}) =>{
     }
     const svgMap = select(mapRef.current);
   
-    const c1Value = d => d.properties.data;
+    const c1Value = d => d.properties.values;
 
     var myColor = (v,low,high) =>{
-        console.log(v)
-        if(v<low)
+        if(v<=low)
           return 'red';
         else if(v >= low && v <= high)
           return 'yellow';

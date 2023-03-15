@@ -1,29 +1,18 @@
-import { geoMercator ,geoPath,select,min,max,extent,scaleLinear,geoBounds } from 'd3';
-import {useEffect, useState} from 'react'
+import { geoMercator ,geoPath,select,min,max } from 'd3';
+import {useEffect} from 'react'
 
 import './Map.css';
-const Map = ( {boundary, width,height,data,svgRef,dimensions} ) => {
-    let [mapData, setMapData] = useState(boundary);
+const Map = ( {boundary, width,height,svgRef} ) => {
+    // console.log(boundary)
+    // let [mapData, setMapData] = useState(boundary);
     const aspect = width / height;
     const adjustedHeight = Math.ceil(width / aspect);
    
 
-    // useEffect(() =>{
-    //     if(data){
-    //         data.forEach(d => {
-    //             boundary.features.forEach(b =>{
-    //                 if(b.properties.NAME2_ === d[0]){
-    //                     b.properties.data = d[1];
-    //                 }
-    //             })
-    //             setMapData(boundary)
-    //         })
-    //     }
-    // },[data,boundary])
+
 
   
     useEffect(()=>{
-        console.log(boundary,geoBounds(boundary),mapData)
         const projection = geoMercator().fitSize([width, height], boundary);
         const pathGenerator = geoPath(projection);
         
@@ -33,10 +22,9 @@ const Map = ( {boundary, width,height,data,svgRef,dimensions} ) => {
         svg.attr("preserveAspectRatio", "xMinYMin meet")
         .attr("viewBox",  `0 0 ${width} ${adjustedHeight}`)
         const g = svg.append('g');
-        let c1Value  = d => d.properties.data
+        let c1Value  = d => d.properties.values
         const mymin = min(boundary.features,c1Value);
         const mymax = max(boundary.features,c1Value);
-        const areaExtent = extent(boundary.features,d => d.properties.AREA_)
         const comp = (mymax - mymin)/3;
     
         let myColor = v =>{
@@ -52,7 +40,7 @@ const Map = ( {boundary, width,height,data,svgRef,dimensions} ) => {
             }
           
           }
-        let fontScale = scaleLinear().domain(areaExtent).range([16,10])
+        // let fontScale = scaleLinear().domain(areaExtent).range([16,10])
 
         g
         .selectAll(".polygon")
@@ -60,28 +48,58 @@ const Map = ( {boundary, width,height,data,svgRef,dimensions} ) => {
         .join("path").attr("class", "polygon") 
         .attr("d" ,feature => pathGenerator(feature))
         .style("fill", d =>{
-            var value = d.properties.data;
+            var value = d.properties.values;
             return myColor(value);
         })
 
-        g.selectAll("text").data(boundary.features)
-        .enter().append("text")
-        .text(d => d.properties.NAME2_)
+        // let fx = g.selectAll("text").data(boundary.features)
+        // .enter().append("text")
+        // .text(d => d.properties.area_name)
+        // .attr("x", function(d){
+        //     return pathGenerator.centroid(d)[0];
+        // })
+        // .attr("y", function(d){
+        //     return  pathGenerator.centroid(d)[1];
+        // })
+        // .attr("text-anchor","middle")
+        // // .attr('font-size',d => fontScale(d.properties.AREA_)+"px")
+        // .attr('font-size',"20px")
+        // .attr("font-family", "sans-serif")
+
+
+
+        g.selectAll('text')
+        .data(boundary.features).enter()
+        .append('text')
         .attr("x", function(d){
             return pathGenerator.centroid(d)[0];
         })
         .attr("y", function(d){
             return  pathGenerator.centroid(d)[1];
         })
-        .attr("text-anchor","middle")
-        // .attr('font-size',d => fontScale(d.properties.AREA_)+"px")
-        .attr('font-size',"12px")
-        .attr("font-family", "sans-serif");
+        .call(
+          text => text.append('tspan')
+            .attr('font-size',"20px")
+            .attr("text-anchor","middle")
+            // .attr('dy', -1)
+            .text(d => d.properties.area_name)
+        ).call(
+            text => text.append('tspan')
+              .attr('dy', 30)
+              .attr('dx', -35)
+              .attr("text-anchor","middle")
+
+              .attr('font-size',"30px")
+            .style('font-weight', 'bold')
+
+              .text(d => d.properties.values)
+          )
+
     },[boundary])
 
     return (
         // <div className='relative  w-full pb-3 pt-1 pr-3' id="svgMap" ref={componentRef}>
-        <div id="svgMap">
+        <div id="svgMap" >
             <svg className = "svg-map" ref={svgRef} ></svg>
 
         </div>
