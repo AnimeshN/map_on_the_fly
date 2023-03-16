@@ -95,7 +95,7 @@ const Steps = ({setData,mapRef,areaChangeDropdownOpt,selArea,areaChange,template
           </div>
         </div>
         <div className="Common Step Step4">
-          <div className="Heading">Step 4: Style</div>
+          <div className="Heading">Step 4: Style the Map</div>
           <div className="Function"><Slider mapRef={mapRef} myextent={myextent} width={width} height={height}></Slider></div>
         </div>
         <div className="Common Step">
