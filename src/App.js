@@ -16,6 +16,7 @@ function App() {
 
   // const [myextent, setMyExtent] = useState();
   const svgRef = useRef();
+  const legendRef = useRef();
   const wrapperRef = useRef();
 
   const dimensions = useResizeObserver(wrapperRef);
@@ -60,10 +61,12 @@ function App() {
         "type": "FeatureCollection",
         "features": features
       } 
-      if(val !== "Maharashtra")
-        setBoundary(selectedTalukaBoundary)
-      else
+      if(val === "MaharashtraDist")
         setBoundary(initialboundary)
+      else if(val === "MaharashtraTal")
+        setBoundary(allTaluka)
+      else
+      setBoundary(selectedTalukaBoundary)
 
 
   }
@@ -102,7 +105,7 @@ function App() {
       <div className="Map" id='map' ref={wrapperRef}>
       <h1 style={{textAlign: "center"}}>{title}</h1>
 
-        <Map boundary={boundary} data={data} width={width} height={height} svgRef={svgRef} dimensions={dimensions}></Map>
+        <Map boundary={boundary} data={data} width={width} height={height} svgRef={svgRef} dimensions={dimensions} legendRef = {legendRef}></Map>
       </div>
     </div>
   );

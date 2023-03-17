@@ -86,6 +86,11 @@ const Slider = ({mapRef,myextent,width,height}) =>{
         let low = (val[0]*100).toFixed(2);
         let high = (val[1]*100).toFixed(2);
         select('p#value-range').text(val.map(format('.1%')).join('-'));
+        select('#low').text((val[0]-.1).toFixed(2));
+        select('#mlow').text(val[0].toFixed(2));
+        select('#mhigh').text((val[1]-.1).toFixed(2));
+        select('#high').text(val[1].toFixed(2));
+        
         svgMap.select('g').selectAll(".polygon").transition().duration(tansitionDuration).style("fill",d=>{
             return myColor(c1Value(d),low,high)
         })

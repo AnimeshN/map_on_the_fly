@@ -53,7 +53,8 @@ const Steps = ({setData,mapRef,areaChangeDropdownOpt,selArea,areaChange,template
                 value={selArea}
                 onChange={areaChange}
                 >
-                <option key={"0Maharashtra"} value={"Maharashtra"}>{"Maharashtra"}</option>
+                <option key={"0MaharashtraD"} value={"MaharashtraDist"}>{"Maharashtra (District)"}</option>
+                <option key={"0MaharashtraT"} value={"MaharashtraTal"}>{"Maharashtra (Taluka)"}</option>
                 {areaChangeDropdownOpt.map((opt) => (
                     <option key={opt.value + opt.title} value={opt.title}>
                     {opt.title}
