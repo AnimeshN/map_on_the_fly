@@ -20,7 +20,7 @@ const Slider = ({mapRef,myextent,width,height}) =>{
     sliderBottom()
     .min(mymin)
     .max(mymax)
-    .width(300)
+    .width(width*.13)
     .tickFormat(format(''))
     .ticks(5)
     .default([(mymax-mymin)*.25,(mymax-mymin)*.75])
@@ -33,7 +33,7 @@ const Slider = ({mapRef,myextent,width,height}) =>{
     // .attr('height', 100)
     // .append('g')
     // .attr('transform', 'translate(30,30)');
-    let g = slider.append("g").attr('transform', 'translate(100,30)')
+    let g = slider.append("g").attr('transform', 'translate(50,30)')
 
     // gRange.call(sliderRange);
     g.call(sliderRange)
