@@ -15,13 +15,14 @@ const Slider = ({mapRef,myextent,width,height}) =>{
     const slider = select(sliderRef.current);
     slider.select("*").remove();
 
-
     var sliderRange =
     sliderBottom()
     .min(mymin)
     .max(mymax)
     .width(width*.13)
-    .tickFormat(format(''))
+    .displayFormat(false)
+
+    .tickFormat(format('.2f'))
     .ticks(5)
     .default([(mymax-mymin)*.25,(mymax-mymin)*.75])
     .fill('yellow')
@@ -41,7 +42,7 @@ const Slider = ({mapRef,myextent,width,height}) =>{
     select('p#value-range').text(
         sliderRange
           .value()
-          .map(format('.1%'))
+          .map(format('.2f'))
           .join('-')
       );
 
@@ -83,9 +84,10 @@ const Slider = ({mapRef,myextent,width,height}) =>{
   sliderRange.on('onchange', val => {
         fillSlider();
         const tansitionDuration = 1000;
-        let low = (val[0]*100).toFixed(2);
-        let high = (val[1]*100).toFixed(2);
-        select('p#value-range').text(val.map(format('.1%')).join('-'));
+        let low = (val[0]).toFixed(2);
+        let high = (val[1]).toFixed(2);
+        console.log(low,high,"test")
+        select('p#value-range').text(val.map(format('.2f')).join('-'));
         select('#low').text((val[0]-.1).toFixed(2));
         select('#mlow').text(val[0].toFixed(2));
         select('#mhigh').text((val[1]-.1).toFixed(2));
@@ -99,7 +101,8 @@ const Slider = ({mapRef,myextent,width,height}) =>{
     return (
           <div>
             <svg className = "svg-slider" width={width*.2} height={100}  ref={sliderRef} ></svg>
-            {/* <div className="col-sm-2"><p id="value-range"></p></div> */}
+
+            <div className="col-sm-2"><p id="value-range"></p></div>
             {/* <div className="col-sm"><div id="slider-range"></div></div> */}
         </div>
     );

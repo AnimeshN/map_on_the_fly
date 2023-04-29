@@ -79,7 +79,7 @@ function App() {
             data.forEach(d => {
               mapData.features.forEach(b =>{
                     if(b.properties.area_name === d[0]){
-                        b.properties.values = d[1];
+                        b.properties.values = +d[1];
                     }
                 })
                 setBoundary(mapData)
@@ -94,7 +94,7 @@ function App() {
     const mymin = min(boundary.features,c1Value);
     const mymax = max(boundary.features,c1Value);
     const myextent = extent(boundary.features,c1Value);
-    console.log(mymin,mymax,myextent)
+    console.log(myextent,boundary.features)
   console.log("APP")
 
   return (

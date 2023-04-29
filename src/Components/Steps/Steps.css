@@ -10,3 +10,7 @@ input[type="file"] {
 
 }
 
+
+.axis text {
+    fill: none;
+  }
