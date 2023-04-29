@@ -6,8 +6,8 @@ import useResizeObserver from './Components/useResizeObserver';
 import React, { useState,useRef,useEffect } from "react";
 import { min,max,extent } from 'd3';
 
-const width = window.screen.width + 500;
-const height = window.screen.height + 300;
+const width = window.screen.width;
+const height = window.screen.height;
 
 
 function App() {

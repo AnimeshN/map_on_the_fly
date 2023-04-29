@@ -8,7 +8,7 @@ import './Map.css';
 const Map = ( {boundary, width,height,svgRef,legendRef} ) => {
     // console.log(boundary)
     // let [mapData, setMapData] = useState(boundary);
-    const aspect = width / height;
+    const aspect = (width / height) ;
     const adjustedHeight = Math.ceil(width / aspect);
    
     let c1Value  = d => d.properties.values
@@ -20,7 +20,7 @@ const Map = ( {boundary, width,height,svgRef,legendRef} ) => {
     let high = mymax - comp;
   
     useEffect(()=>{
-        const projection = geoMercator().fitSize([width, height], boundary);
+        const projection = geoMercator().fitSize([width, height-50], boundary);
         const pathGenerator = geoPath(projection);
         
 
@@ -128,7 +128,7 @@ const Map = ( {boundary, width,height,svgRef,legendRef} ) => {
         // <div className='relative  w-full pb-3 pt-1 pr-3' id="svgMap" ref={componentRef}>
         <div id="svgMap" >
             <svg className = "svg-map" ref={svgRef} ></svg>
-            <div style={{ position:"relative", marginTop:"-7em", float:"right", marginRight:"100px"}}>
+            <div style={{ position:"relative", marginTop:"-15rem", float:"right", marginRight:"5rem"}}>
                 <h4>Legend</h4>
                 <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="red" stroke="black" stroke-width=".5" ></circle></svg><div  style={{ marginLeft:"5px", display:"inline"}}>{mymin}-<span id="low">{low-1}</span></div></div>
                 <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="yellow" stroke="black" stroke-width=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="mlow">{low}</span>-<span id="mhigh">{high-1}</span></span></div>
