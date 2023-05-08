@@ -130,9 +130,9 @@ const Map = ( {boundary, width,height,svgRef,legendRef} ) => {
             <svg className = "svg-map" ref={svgRef} ></svg>
             <div style={{ position:"relative", marginTop:"-15rem", float:"right", marginRight:"5rem"}}>
                 <h4>Legend</h4>
-                <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="red" stroke="black" stroke-width=".5" ></circle></svg><div  style={{ marginLeft:"5px", display:"inline"}}>{mymin}-<span id="low">{low-1}</span></div></div>
-                <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="yellow" stroke="black" stroke-width=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="mlow">{low}</span>-<span id="mhigh">{high-1}</span></span></div>
-                <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="green" stroke="black" stroke-width=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="high">{high}</span>-{mymax}</span></div>
+                <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="red" stroke="black" strokeWidth=".5" ></circle></svg><div  style={{ marginLeft:"5px", display:"inline"}}>{mymin}-<span id="low">NaN</span></div></div>
+                <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="yellow" stroke="black" strokeWidth=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="mlow">{low}</span>-<span id="mhigh">NaN</span></span></div>
+                <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="green" stroke="black" strokeWidth=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="high">NaN</span>-{mymax}</span></div>
             </div>
 
 

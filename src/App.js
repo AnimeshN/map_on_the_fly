@@ -4,7 +4,7 @@ import Steps from './Components/Steps/Steps';
 import './App.css';
 import useResizeObserver from './Components/useResizeObserver';
 import React, { useState,useRef,useEffect } from "react";
-import { min,max,extent } from 'd3';
+import { select,min,max,extent } from 'd3';
 
 const width = window.screen.width;
 const height = window.screen.height;
@@ -12,9 +12,9 @@ const height = window.screen.height;
 
 function App() {
   const [data, setData] = useState();
+  const [minMax, setMinMax] = useState(0);
   const [title, setTitle] = useState("Maharashtra districts");
 
-  // const [myextent, setMyExtent] = useState();
   const svgRef = useRef();
   const legendRef = useRef();
   const wrapperRef = useRef();
@@ -99,7 +99,7 @@ function App() {
 
   return (
     <div className="App">
-     <Steps setData = {setData} mapRef = {svgRef}  areaChangeDropdownOpt={areaChangeDropdownOpt} selArea={selArea}  areaChange={areaChange} data={data} template={template} myextent={myextent} setTitle={setTitle} width={width} height={height}></Steps>
+     <Steps setData = {setData} mapRef = {svgRef}  setMinMax = {setMinMax} areaChangeDropdownOpt={areaChangeDropdownOpt} selArea={selArea}  areaChange={areaChange} data={data} template={template} myextent={myextent} setTitle={setTitle} width={width} height={height}></Steps>
 
 
       <div className="Map" id='map' ref={wrapperRef}>

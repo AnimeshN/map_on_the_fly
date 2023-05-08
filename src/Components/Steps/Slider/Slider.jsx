@@ -1,9 +1,10 @@
 import { select,format,symbol,symbolCircle } from 'd3';
 import { sliderBottom } from 'd3-simple-slider';
-import {useRef} from 'react'
+import {useRef,useState} from 'react'
 
-const Slider = ({mapRef,myextent,width,height}) =>{
+const Slider = ({mapRef,myextent,width,setMinMax,checked}) =>{
     let mymin, mymax;
+    let [mMin,setMMin] = useState(0)
     if(myextent[0]){
         mymin = myextent[0];
         mymax = myextent[1];
@@ -20,8 +21,6 @@ const Slider = ({mapRef,myextent,width,height}) =>{
     .min(mymin)
     .max(mymax)
     .width(width*.13)
-    .displayFormat(false)
-
     .tickFormat(format('.2f'))
     .ticks(5)
     .default([(mymax-mymin)*.25,(mymax-mymin)*.75])
@@ -86,7 +85,6 @@ const Slider = ({mapRef,myextent,width,height}) =>{
         const tansitionDuration = 1000;
         let low = (val[0]).toFixed(2);
         let high = (val[1]).toFixed(2);
-        console.log(low,high,"test")
         select('p#value-range').text(val.map(format('.2f')).join('-'));
         select('#low').text((val[0]-.1).toFixed(2));
         select('#mlow').text(val[0].toFixed(2));
@@ -96,12 +94,15 @@ const Slider = ({mapRef,myextent,width,height}) =>{
         svgMap.select('g').selectAll(".polygon").transition().duration(tansitionDuration).style("fill",d=>{
             return myColor(c1Value(d),low,high)
         })
+
     })
-    
+    sliderRange.on('drag',()=>{
+        console.log(sliderRange.value(),'out')
+    })
     return (
           <div>
             <svg className = "svg-slider" width={width*.2} height={100}  ref={sliderRef} ></svg>
-
+            {/* Min:<input value='5'></input> */}
             <div className="col-sm-2"><p id="value-range"></p></div>
             {/* <div className="col-sm"><div id="slider-range"></div></div> */}
         </div>

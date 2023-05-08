@@ -22,7 +22,7 @@ const Download = ({AiOutlineExport}) =>{
 //     });
 // }
     return (
-        <button class="custom-button" onClick={savePng} id="btn"><AiOutlineExport/></button>
+        <button className="custom-button" onClick={savePng} id="btn"><AiOutlineExport/></button>
     );
 }
 

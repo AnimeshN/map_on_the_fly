@@ -4,9 +4,16 @@ import Download from './Download/Download';
 import { CSVLink } from "react-csv";
 import { AiOutlineDownload ,AiOutlineUpload ,AiOutlineExport ,AiOutlineGithub} from "react-icons/ai";
 import "./Steps.css"
+import {useState} from 'react'
+import Switch from '@mui/material/Switch';
 
-const Steps = ({setData,mapRef,areaChangeDropdownOpt,selArea,areaChange,template,myextent,setTitle,width,height}) =>{
 
+const Steps = ({setData,mapRef,areaChangeDropdownOpt,selArea,areaChange,template,setMinMax,myextent,setTitle,width,height}) =>{
+    const [checked, setChecked] = useState(false);
+    const handleFlip = (e) =>{
+      console.log(e.target.checked)
+      setChecked(e.target.checked)
+    }
     const handleOnChange = (e) => {
         const files = e.target.files;
         if (files) {
@@ -69,7 +76,7 @@ const Steps = ({setData,mapRef,areaChangeDropdownOpt,selArea,areaChange,template
             <div className="Function">
 
             <CSVLink headers={headers} data={template} filename={selArea + ".csv"}>
-                <button class="custom-button" onClick={downloadFormat}><AiOutlineDownload/></button>
+                <button className="custom-button" onClick={downloadFormat}><AiOutlineDownload/></button>
             </CSVLink>
 
                 {/* <button onClick={downloadFormat}>Download</button> */}
@@ -80,7 +87,7 @@ const Steps = ({setData,mapRef,areaChangeDropdownOpt,selArea,areaChange,template
             <div className="Function">
             <form>
 
-                <label class="custom-button">
+                <label className="custom-button">
                     {/* <input type="file"/> */}
                     <input
                         type={"file"}
@@ -97,7 +104,8 @@ const Steps = ({setData,mapRef,areaChangeDropdownOpt,selArea,areaChange,template
         </div>
         <div className="Common Step Step4">
           <div className="Heading">Step 4: Style the Map</div>
-          <div className="Function"><Slider mapRef={mapRef} myextent={myextent} width={width} height={height}></Slider></div>
+           <div> Flip Colors : <Switch checked={checked} onChange={handleFlip} color="secondary" /></div>
+          <div className="Function"><Slider mapRef={mapRef} myextent={myextent} width={width} height={height} setMinMax={setMinMax} checked={checked}></Slider></div>
         </div>
         <div className="Common Step">
           <div className="Heading">Step 5: Add Labels</div>
@@ -115,7 +123,7 @@ const Steps = ({setData,mapRef,areaChangeDropdownOpt,selArea,areaChange,template
           <div className="Step SecondStep">
             <div className="Heading">Fork the repo 🙏</div>
             <div className="Function">
-                <button class="custom-button">  <a style={{display: "table-cell"}} href="https://github.com/AnimeshN/map_on_the_fly" target="_blank"><AiOutlineGithub/></a></button>
+                <button className="custom-button">  <a style={{display: "table-cell"}} href="https://github.com/AnimeshN/map_on_the_fly" target="_blank"><AiOutlineGithub/></a></button>
 
             </div>
           </div>
