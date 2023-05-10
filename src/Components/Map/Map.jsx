@@ -9,7 +9,7 @@ const Map = ( {boundary, width,height,svgRef,legendRef,checked} ) => {
     // console.log(boundary)
     // let [mapData, setMapData] = useState(boundary);
     const aspect = (width / height) ;
-    const adjustedHeight = Math.ceil(width / aspect);
+    const adjustedHeight = Math.ceil(width / aspect) * .9;
    
     let c1Value  = d => d.properties.values
 
@@ -20,7 +20,7 @@ const Map = ( {boundary, width,height,svgRef,legendRef,checked} ) => {
     let high = mymax - comp;
   
     useEffect(()=>{
-        const projection = geoMercator().fitSize([width, height-50], boundary);
+        const projection = geoMercator().fitSize([width, adjustedHeight], boundary);
         const pathGenerator = geoPath(projection);
         
 
