@@ -14,6 +14,8 @@ function App() {
   const [data, setData] = useState();
   const [minMax, setMinMax] = useState(0);
   const [title, setTitle] = useState("Maharashtra districts");
+  const [checked, setChecked] = useState(false);
+
 
   const svgRef = useRef();
   const legendRef = useRef();
@@ -99,13 +101,13 @@ function App() {
 
   return (
     <div className="App">
-     <Steps setData = {setData} mapRef = {svgRef}  setMinMax = {setMinMax} areaChangeDropdownOpt={areaChangeDropdownOpt} selArea={selArea}  areaChange={areaChange} data={data} template={template} myextent={myextent} setTitle={setTitle} width={width} height={height}></Steps>
+     <Steps setData = {setData} mapRef = {svgRef}  setMinMax = {setMinMax} areaChangeDropdownOpt={areaChangeDropdownOpt} selArea={selArea}  areaChange={areaChange} data={data} template={template} myextent={myextent} setTitle={setTitle} width={width} height={height} checked={checked} setChecked={setChecked}></Steps>
 
 
       <div className="Map" id='map' ref={wrapperRef}>
       <h1 style={{textAlign: "center"}}>{title}</h1>
 
-        <Map boundary={boundary} data={data} width={width} height={height} svgRef={svgRef} dimensions={dimensions} legendRef = {legendRef}></Map>
+        <Map boundary={boundary} data={data} width={width} height={height} svgRef={svgRef} dimensions={dimensions} legendRef = {legendRef} checked={checked}></Map>
       </div>
     </div>
   );

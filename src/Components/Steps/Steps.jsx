@@ -8,8 +8,7 @@ import {useState} from 'react'
 import Switch from '@mui/material/Switch';
 
 
-const Steps = ({setData,mapRef,areaChangeDropdownOpt,selArea,areaChange,template,setMinMax,myextent,setTitle,width,height}) =>{
-    const [checked, setChecked] = useState(false);
+const Steps = ({setData,mapRef,areaChangeDropdownOpt,selArea,areaChange,template,setMinMax,myextent,setTitle,width,height,checked, setChecked}) =>{
     const handleFlip = (e) =>{
       console.log(e.target.checked)
       setChecked(e.target.checked)

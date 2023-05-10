@@ -5,7 +5,7 @@ import { legendColor } from 'd3-svg-legend'
 import {useEffect} from 'react'
 
 import './Map.css';
-const Map = ( {boundary, width,height,svgRef,legendRef} ) => {
+const Map = ( {boundary, width,height,svgRef,legendRef,checked} ) => {
     // console.log(boundary)
     // let [mapData, setMapData] = useState(boundary);
     const aspect = (width / height) ;
@@ -48,6 +48,20 @@ const Map = ( {boundary, width,height,svgRef,legendRef} ) => {
             }
           
           }
+
+          let myColorFliped = v =>{
+            if(v){
+                if(v>=mymin && v < mymin + comp)
+                return 'green';
+              else if(v >= mymin+comp && v<mymax-comp)
+                return 'yellow';
+              else if(v >= mymax-comp)
+                return 'red';
+            }else{
+                return "white";
+            }
+          
+          }
         // let fontScale = scaleLinear().domain(areaExtent).range([16,10])
 
         g
@@ -57,7 +71,10 @@ const Map = ( {boundary, width,height,svgRef,legendRef} ) => {
         .attr("d" ,feature => pathGenerator(feature))
         .style("fill", d =>{
             var value = d.properties.values;
-            return myColor(value);
+            if(checked)
+              return myColorFliped(value);
+            else
+              return myColor(value);
         })
 
         // let fx = g.selectAll("text").data(boundary.features)
@@ -120,20 +137,32 @@ const Map = ( {boundary, width,height,svgRef,legendRef} ) => {
 
 
 
-    },[boundary])
+    },[boundary,checked])
 
- 
+    let mylagend;
+    if(checked){
+      mylagend = <div style={{ position:"relative", marginTop:"-30rem", float:"right", marginRight:"5rem"}}>
+      <h4>Legend</h4>
+      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="green" stroke="black" strokeWidth=".5" ></circle></svg><div  style={{ marginLeft:"5px", display:"inline"}}>{mymin}-<span id="low">NaN</span></div></div>
+      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="yellow" stroke="black" strokeWidth=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="mlow">{low}</span>-<span id="mhigh">NaN</span></span></div>
+      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="red" stroke="black" strokeWidth=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="high">NaN</span>-{mymax}</span></div>
+  </div>
+    }else{
+      mylagend = <div style={{ position:"relative", marginTop:"-30rem", float:"right", marginRight:"5rem"}}>
+      <h4>Legend</h4>
+      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="red" stroke="black" strokeWidth=".5" ></circle></svg><div  style={{ marginLeft:"5px", display:"inline"}}>{mymin}-<span id="low">NaN</span></div></div>
+      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="yellow" stroke="black" strokeWidth=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="mlow">{low}</span>-<span id="mhigh">NaN</span></span></div>
+      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="green" stroke="black" strokeWidth=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="high">NaN</span>-{mymax}</span></div>
+  </div>
+    }
+
+
 
     return (
         // <div className='relative  w-full pb-3 pt-1 pr-3' id="svgMap" ref={componentRef}>
         <div id="svgMap" >
             <svg className = "svg-map" ref={svgRef} ></svg>
-            <div style={{ position:"relative", marginTop:"-15rem", float:"right", marginRight:"5rem"}}>
-                <h4>Legend</h4>
-                <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="red" stroke="black" strokeWidth=".5" ></circle></svg><div  style={{ marginLeft:"5px", display:"inline"}}>{mymin}-<span id="low">NaN</span></div></div>
-                <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="yellow" stroke="black" strokeWidth=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="mlow">{low}</span>-<span id="mhigh">NaN</span></span></div>
-                <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="green" stroke="black" strokeWidth=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="high">NaN</span>-{mymax}</span></div>
-            </div>
+            {mylagend}
 
 
         </div>
