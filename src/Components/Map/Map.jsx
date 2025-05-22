@@ -1,6 +1,4 @@
-import { geoMercator ,geoPath,select,min,max,scaleQuantize,format } from 'd3';
-import { Legend } from "./Legend/Legend";
-import { legendColor } from 'd3-svg-legend'
+import { geoMercator ,geoPath,select,min,max} from 'd3';
 
 import {useEffect} from 'react'
 
@@ -25,7 +23,7 @@ const Map = ( {boundary, width,height,svgRef,legendRef,checked} ) => {
         
 
         const svg = select(svgRef.current);
-        const legend = select(legendRef.current);
+        // const legend = select(legendRef.current);
         svg.select("*").remove();
         svg.attr("preserveAspectRatio", "xMinYMin meet")
         .attr("viewBox",  `0 0 ${width} ${adjustedHeight}`)
@@ -143,16 +141,16 @@ const Map = ( {boundary, width,height,svgRef,legendRef,checked} ) => {
     if(checked){
       mylagend = <div style={{ position:"relative", marginTop:"-30rem", float:"right", marginRight:"5rem"}}>
       <h4>Legend</h4>
-      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="green" stroke="black" strokeWidth=".5" ></circle></svg><div  style={{ marginLeft:"5px", display:"inline"}}>{mymin}-<span id="low">NaN</span></div></div>
-      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="yellow" stroke="black" strokeWidth=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="mlow">{low}</span>-<span id="mhigh">NaN</span></span></div>
-      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="red" stroke="black" strokeWidth=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="high">NaN</span>-{mymax}</span></div>
+      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="green" stroke="black" strokeWidth=".5" ></circle></svg><div  style={{ marginLeft:"5px", display:"inline"}}>{mymin}-<span id="low">{(low-0.1).toFixed(2)}</span></div></div>
+      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="yellow" stroke="black" strokeWidth=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="mlow">{(low).toFixed(2)}</span>-<span id="mhigh">{(high-0.1).toFixed(2)}</span></span></div>
+      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="red" stroke="black" strokeWidth=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="high">{(high).toFixed(2)}</span>-{mymax}</span></div>
   </div>
     }else{
       mylagend = <div style={{ position:"relative", marginTop:"-30rem", float:"right", marginRight:"5rem"}}>
       <h4>Legend</h4>
-      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="red" stroke="black" strokeWidth=".5" ></circle></svg><div  style={{ marginLeft:"5px", display:"inline"}}>{mymin}-<span id="low">NaN</span></div></div>
-      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="yellow" stroke="black" strokeWidth=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="mlow">{low}</span>-<span id="mhigh">NaN</span></span></div>
-      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="green" stroke="black" strokeWidth=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="high">NaN</span>-{mymax}</span></div>
+      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="red" stroke="black" strokeWidth=".5" ></circle></svg><div  style={{ marginLeft:"5px", display:"inline"}}>{mymin}-<span id="low">{(low-0.1).toFixed(2)}</span></div></div>
+      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="yellow" stroke="black" strokeWidth=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="mlow">{(low).toFixed(2)}</span>-<span id="mhigh">{(high-0.1).toFixed(2)}</span></span></div>
+      <div style={{display:"flex"}}><svg width="25" height="25" transform="translate(0,0)"><circle cx="12" cy="12" r="10" fill="green" stroke="black" strokeWidth=".5"></circle></svg><span style={{ marginLeft:"5px"}}><span id="high">{(high).toFixed(2)}</span>-{mymax}</span></div>
   </div>
     }
 
